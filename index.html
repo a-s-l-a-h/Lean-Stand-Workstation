@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lean Stand Workstation – an open DIY design</title>
+<meta name="description" content="Lean Stand Workstation: a DIY lean stand for working at a laptop while standing. Explore the full 3D model with dimensions in your browser.">
+<style>
+  :root {
+    --bg: #f7f7f4;
+    --card: #ffffff;
+    --text: #1b1d1c;
+    --muted: #61676a;
+    --line: #e0e0da;
+    --soft: #eeeee8;
+    --accent: #2f5d50;
+    --accent-dark: #224337;
+    --accent-soft: #e4eee9;
+    --dark: #1c2421;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.65;
+    color: var(--text);
+    background: var(--bg);
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 1.25rem; }
+  a { color: var(--accent); }
+  p { margin: 0 0 1rem; }
+
+  /* ---------- top bar ---------- */
+  header.top {
+    position: sticky; top: 0; z-index: 20;
+    background: rgba(247,247,244,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  header.top .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .brand { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; color: var(--text); text-decoration: none; }
+  .logo { width: 28px; height: 28px; border-radius: 7px; background: var(--accent); position: relative; flex: none; }
+  .logo::after {
+    content: ""; position: absolute; left: 12px; top: 5px; width: 4px; height: 18px;
+    background: #fff; border-radius: 2px; transform: rotate(15deg);
+  }
+  nav a { margin-left: 1.4rem; font-size: 0.93rem; color: var(--muted); text-decoration: none; }
+  nav a:hover { color: var(--accent); }
+
+  /* ---------- hero ---------- */
+  .hero { padding: 4.5rem 0 3rem; }
+  .hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 3rem; align-items: center; }
+  .eyebrow {
+    display: inline-block; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--accent); background: var(--accent-soft);
+    padding: 0.3rem 0.7rem; border-radius: 999px; margin-bottom: 1.1rem;
+  }
+  .hero h1 { font-size: clamp(2.3rem, 5vw, 3.6rem); line-height: 1.08; margin: 0 0 1.1rem; letter-spacing: -0.025em; }
+  .hero p.lead { font-size: 1.15rem; color: var(--muted); max-width: 520px; margin-bottom: 1.8rem; }
+  .btn {
+    display: inline-block; padding: 0.7rem 1.4rem; border-radius: 8px;
+    background: var(--accent); color: #fff; text-decoration: none; font-weight: 600;
+    border: 1px solid var(--accent); margin: 0 0.5rem 0.5rem 0;
+  }
+  .btn:hover { background: var(--accent-dark); }
+  .btn.ghost { background: transparent; color: var(--accent); }
+  .btn.ghost:hover { background: var(--accent-soft); }
+
+  /* ---------- images ---------- */
+  figure.shot { margin: 0; }
+  .imgbox { position: relative; overflow: hidden; border-radius: 12px; border: 1px solid var(--line); background: #fff; }
+  .imgbox img { display: block; width: 100%; height: auto; }
+  .badge {
+    position: absolute; left: 10px; bottom: 10px; z-index: 2;
+    background: rgba(28,36,33,0.85); color: #fff; font-size: 0.74rem; letter-spacing: 0.02em;
+    padding: 0.25rem 0.6rem; border-radius: 6px;
+  }
+  figcaption { font-size: 0.9rem; color: var(--muted); margin-top: 0.55rem; }
+
+  /* ---------- stats strip ---------- */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); border-radius: 12px; background: var(--card); overflow: hidden; }
+  .stat { padding: 1.2rem 1.3rem; border-right: 1px solid var(--line); }
+  .stat:last-child { border-right: 0; }
+  .stat b { display: block; font-size: 1.6rem; letter-spacing: -0.02em; color: var(--accent); }
+  .stat span { font-size: 0.88rem; color: var(--muted); }
+
+  /* ---------- sections ---------- */
+  section { padding: 4rem 0 0; }
+  .kicker { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+  h2 { font-size: clamp(1.6rem, 3.2vw, 2.2rem); margin: 0 0 0.8rem; letter-spacing: -0.02em; line-height: 1.2; }
+  .intro { max-width: 660px; color: var(--muted); font-size: 1.05rem; }
+
+  /* ---------- mm notice ---------- */
+  .units {
+    display: flex; gap: 0.9rem; align-items: flex-start; margin-top: 1.5rem;
+    background: var(--accent-soft); border: 1px solid #cfe0d8; border-radius: 10px;
+    padding: 0.9rem 1.1rem; font-size: 0.95rem;
+  }
+  .units .pill {
+    flex: none; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.85rem;
+    padding: 0.15rem 0.6rem; border-radius: 6px; margin-top: 0.1rem;
+  }
+  .legend { display: inline-flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.35rem; font-size: 0.88rem; color: var(--muted); }
+  .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 0.35rem; vertical-align: baseline; }
+
+  /* ---------- viewer ---------- */
+  .viewer-box { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--card); box-shadow: 0 8px 30px rgba(20,30,26,0.07); margin-top: 1rem; }
+  .viewer-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; padding: 0.7rem 1rem; border-bottom: 1px solid var(--line); background: var(--soft); font-size: 0.9rem; }
+  .viewer-head b { font-weight: 600; }
+  .viewer-head span { color: var(--muted); }
+  .viewer-body { position: relative; height: 680px; background: #fff; }
+  iframe#viewer { display: block; width: 100%; height: 100%; border: 0; background: #fff; }
+  #viewer-msg {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 2rem; color: var(--muted); background: #fff; z-index: 1;
+  }
+  #viewer-msg.hidden { display: none; }
+  .tips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1rem; }
+  .tip { font-size: 0.9rem; color: var(--muted); padding-left: 0.9rem; border-left: 3px solid var(--accent-soft); }
+  .tip b { color: var(--text); }
+
+  /* ---------- feature cards ---------- */
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; margin-top: 2rem; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1.4rem; }
+  .card .num {
+    width: 34px; height: 34px; border-radius: 9px; background: var(--accent-soft); color: var(--accent);
+    font-weight: 700; display: flex; align-items: center; justify-content: center; margin-bottom: 0.9rem;
+  }
+  .card h3 { margin: 0 0 0.35rem; font-size: 1.08rem; }
+  .card p { margin: 0; color: var(--muted); font-size: 0.96rem; }
+
+  /* ---------- concept image ---------- */
+  .concept { max-width: 820px; margin-top: 2rem; }
+  .ai-note {
+    margin-top: 1.5rem; display: flex; gap: 0.8rem; align-items: flex-start;
+    background: var(--accent-soft); border: 1px solid #cfe0d8; border-radius: 10px; padding: 0.9rem 1.1rem; font-size: 0.93rem;
+  }
+  .ai-note b { white-space: nowrap; }
+
+  /* ---------- materials spec ---------- */
+  .spec { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; margin-top: 2rem; }
+  .spec .box { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1.6rem; }
+  .spec h3 { margin: 0 0 0.9rem; font-size: 1.2rem; }
+  .spec ul { margin: 0; padding: 0; list-style: none; }
+  .spec li { padding: 0.45rem 0; border-top: 1px solid var(--line); font-size: 0.96rem; }
+  .spec li span { color: var(--muted); display: inline-block; min-width: 110px; }
+
+  /* ---------- tables ---------- */
+  .table-wrap { overflow-x: auto; margin-top: 1.5rem; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
+  table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
+  th, td { padding: 0.7rem 1rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+  tr:last-child td { border-bottom: 0; }
+  th { background: var(--soft); font-weight: 600; font-size: 0.88rem; }
+  code { font-family: Consolas, Menlo, monospace; font-size: 0.86rem; background: var(--soft); padding: 0.1rem 0.4rem; border-radius: 4px; }
+
+  /* ---------- notes ---------- */
+  .note { border-left: 4px solid var(--accent); background: var(--card); border-top: 1px solid var(--line); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 1.1rem 1.3rem; border-radius: 0 10px 10px 0; margin-top: 2rem; }
+  .note strong { display: block; margin-bottom: 0.2rem; }
+
+  /* ---------- footer ---------- */
+  footer { margin-top: 5rem; background: var(--dark); color: #c9d2ce; padding: 2.5rem 0; font-size: 0.92rem; }
+  footer a { color: #fff; }
+  footer .row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+  footer small { display: block; margin-top: 0.8rem; color: #8f9b96; max-width: 700px; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 860px) {
+    .hero-grid, .spec { grid-template-columns: 1fr; }
+    .cards, .tips { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: 1fr 1fr; }
+    .stat:nth-child(2) { border-right: 0; }
+    .stat:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+    .viewer-body { height: 500px; }
+    nav a:not(:last-child) { display: none; }
+    .hero { padding-top: 2.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="logo"></span>Lean Stand Workstation</a>
+    <nav>
+      <a href="#model">3D model</a>
+      <a href="#how">How it works</a>
+      <a href="#concept">Concept image</a>
+      <a href="#dimensions">Dimensions</a>
+      <a href="#build">Build info</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <div class="wrap hero">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow">Open DIY design</span>
+        <h1>Work standing up, without the tired legs.</h1>
+        <p class="lead">
+          Lean Stand Workstation is a lean chair for laptop work: a tilted backrest, a pelvic roller,
+          armrests and a tray. Explore the full 3D model with dimensions and see how it goes together.
+        </p>
+        <a class="btn" href="#model">Explore the 3D model</a>
+        <a class="btn ghost" href="#how">How it works</a>
+      </div>
+
+      <figure class="shot">
+        <div class="imgbox">
+          <img src="images/LeanStandWorkStationWithPerson.jpg" alt="AI-generated concept image of a person working at a laptop on the lean stand">
+          <span class="badge">AI-generated concept image</span>
+        </div>
+      </figure>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="wrap">
+    <div class="stats">
+      <div class="stat"><b>15°</b><span>lean from vertical</span></div>
+      <div class="stat"><b>1,020 mm</b><span>full-height backrest</span></div>
+      <div class="stat"><b>40 × 40</b><span>mm steel square tube</span></div>
+      <div class="stat"><b>M8 bolted</b><span>gusset plate joints</span></div>
+    </div>
+  </div>
+
+  <!-- 3D MODEL -->
+  <section id="model">
+    <div class="wrap">
+      <div class="kicker">Interactive</div>
+      <h2>Explore the 3D model</h2>
+      <p class="intro">Turn it around, zoom in and look at every joint. The model shows the main dimensions directly on the design.</p>
+
+      <div class="units">
+        <div class="pill">mm</div>
+        <div>
+          <strong>All values in the 3D view are in millimetres (mm).</strong>
+          Angles are in degrees.
+          <div class="legend">
+            <span><i class="dot" style="background:#e51a1a"></i>Red lines: dimension</span>
+            <span><i class="dot" style="background:#0d40d9"></i>Blue text: value in mm</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="viewer-box">
+        <div class="viewer-head">
+          <b>Lean Stand Workstation – steel version</b>
+          <span>First load can take 10–30 seconds</span>
+        </div>
+        <div class="viewer-body">
+          <div id="viewer-msg">Loading the 3D model…</div>
+          <iframe id="viewer" allow="fullscreen" title="Interactive 3D model of the lean stand"></iframe>
+        </div>
+      </div>
+
+      <div class="tips">
+        <div class="tip"><b>Rotate:</b> drag with mouse or one finger.</div>
+        <div class="tip"><b>Zoom:</b> scroll, or pinch on a phone.</div>
+        <div class="tip"><b>Full screen:</b> use the button at the top right of the viewer.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="wrap">
+      <div class="kicker">The idea</div>
+      <h2>Between sitting and standing</h2>
+      <p class="intro">
+        Sitting all day is tiring and standing all day is tiring too. You stand on a foot platform, lean back on a
+        tilted backrest, and rest your pelvis on a roller. Your forearms rest on pads with the laptop in front of you,
+        so the frame carries much of your weight instead of your legs and lower back.
+      </p>
+
+      <div class="cards">
+        <div class="card"><div class="num">1</div><h3>15° lean</h3><p>The whole frame leans back 15° from vertical. The angle is a setting in the model.</p></div>
+        <div class="card"><div class="num">2</div><h3>Full-height backrest</h3><p>A padded board 1,020 mm tall supports you from lower back to head.</p></div>
+        <div class="card"><div class="num">3</div><h3>Pelvic roller</h3><p>A padded roller holds your hips. It is clamped to the uprights and can be set at different heights.</p></div>
+        <div class="card"><div class="num">4</div><h3>Armrests</h3><p>Two forearm pads on rails, also clamped to the uprights, so the height can be changed.</p></div>
+        <div class="card"><div class="num">5</div><h3>Tilted laptop tray</h3><p>The tray is tilted 15° to match the lean. It pivots on one screw, so you can swing it aside to get in and out.</p></div>
+        <div class="card"><div class="num">6</div><h3>Bolted frame</h3><p>A base, a front upright and a rear leg, joined by bolted gusset plates.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONCEPT IMAGE -->
+  <section id="concept">
+    <div class="wrap">
+      <div class="kicker">Concept image</div>
+      <h2>The idea at a glance</h2>
+      <p class="intro">An illustration of the design idea.</p>
+
+      <figure class="shot concept">
+        <div class="imgbox">
+          <img src="images/LeanStandWorkStation.jpeg" alt="AI-generated concept image of the lean stand workstation frame" loading="lazy">
+          <span class="badge">AI-generated concept image</span>
+        </div>
+        <figcaption>The lean stand workstation: frame, backrest, pelvic roller, armrests and tray.</figcaption>
+      </figure>
+
+      <div class="ai-note">
+        <b>Please note:</b>
+        <span>The images on this page are AI-generated concept illustrations of the idea. They are not photos of a real, finished build, and small details may differ from the design. The 3D model above is the design reference.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIMENSIONS -->
+  <section id="dimensions">
+    <div class="wrap">
+      <div class="kicker">Dimensions</div>
+      <h2>Key dimensions</h2>
+      <p class="intro">The main dimensions of the model. <strong>All values are in millimetres (mm)</strong> unless marked in degrees. The heights are a starting point for an average adult, so adjust them to fit your body.</p>
+
+      <div class="table-wrap">
+        <table>
+          <tr><th>Dimension</th><th>Value</th><th>What it is</th></tr>
+          <tr><td><code>lean_angle</code></td><td>15°</td><td>Lean from vertical</td></tr>
+          <tr><td><code>apex_height</code></td><td>1,000 mm</td><td>Height of the top joint where the upright meets the rear leg</td></tr>
+          <tr><td><code>pelvic_height</code></td><td>710 mm</td><td>Height of the pelvic roller from the floor</td></tr>
+          <tr><td><code>armrest_height</code></td><td>1,120 mm</td><td>Height of the forearm rests</td></tr>
+          <tr><td><code>laptop_forward_clearance</code></td><td>115 mm</td><td>Gap between the armrest pads and the tray</td></tr>
+          <tr><td><code>tray_tilt</code></td><td>15°</td><td>Tilt of the laptop tray</td></tr>
+          <tr><td><code>tray_width × tray_depth</code></td><td>660 × 300 mm</td><td>Size of the laptop tray</td></tr>
+          <tr><td><code>backboard_height × width</code></td><td>1,020 × 500 mm</td><td>Size of the backrest board</td></tr>
+          <tr><td><code>base_length × base_width</code></td><td>1,140 × 660 mm</td><td>Footprint of the base</td></tr>
+          <tr><td><code>total_spine_len</code></td><td>2,000 mm</td><td>Length of the front uprights</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUILD INFO -->
+  <section id="build">
+    <div class="wrap">
+      <div class="kicker">Build info</div>
+      <h2>Materials</h2>
+      <p class="intro">The model is designed in mild steel square tube. Sizes are in mm.</p>
+
+      <div class="spec">
+        <div class="box">
+          <h3>Steel specification</h3>
+          <ul>
+            <li><span>Main tube</span>40 × 40 mm square tube, 2.5 mm wall</li>
+            <li><span>Armrest rails</span>30 × 30 mm square tube, 2 mm wall</li>
+            <li><span>Gusset plates</span>5 mm mild steel</li>
+            <li><span>Clamp plates</span>4.5 mm mild steel, with 1.5 mm rubber liner</li>
+            <li><span>Frame joints</span>M8 bolts through plates</li>
+            <li><span>Tools</span>Drill, metal saw, files</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Other parts</h3>
+          <ul>
+            <li><span>Backrest</span>12 mm plywood board with 50 mm foam</li>
+            <li><span>Pelvic roller</span>58 mm diameter, about 612 mm long</li>
+            <li><span>Forearm pads</span>240 × 75 × 30 mm</li>
+            <li><span>Laptop tray</span>660 × 300 × 14 mm</li>
+            <li><span>Foot platform</span>about 540 × 335 mm</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <tr><th>Part</th><th>Qty</th><th>Size (mm)</th></tr>
+          <tr><td>40 × 40 tube, base side rails</td><td>2</td><td>1,140</td></tr>
+          <tr><td>40 × 40 tube, front uprights</td><td>2</td><td>about 2,000</td></tr>
+          <tr><td>40 × 40 tube, rear legs</td><td>2</td><td>about 1,060, trim at the joints</td></tr>
+          <tr><td>40 × 40 tube, crossbars</td><td>9</td><td>580 (4 base, 4 upright, 1 rear)</td></tr>
+          <tr><td>30 × 30 tube, armrest rails</td><td>2</td><td>about 680</td></tr>
+          <tr><td>5 mm gusset plates</td><td>12</td><td>shapes are in the model</td></tr>
+          <tr><td>M8 bolts, nuts, washers</td><td>about 36 for the frame</td><td>plus clamp bolts</td></tr>
+          <tr><td>Friction clamps</td><td>4</td><td>2 plates each, bolts and a rubber liner</td></tr>
+        </table>
+      </div>
+      <p style="margin-top:1rem;color:var(--muted);">Counts are approximate and taken from the model. Check them against the 3D view before you cut anything. An aluminum build with the same layout is possible, but it is not modelled here.</p>
+
+      <div class="note">
+        <strong>Please read before building</strong>
+        This is a hobby design. It has not been load-tested or certified, and no real unit has been built yet.
+        You lean your whole body weight on it, so use good bolts, check every joint, and test it with a low lean and
+        your feet on the floor before you rely on it. The height clamps rely on friction, so check them often, and
+        consider adding a pin through the tube at each set height. Build and use it at your own risk.
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="row">
+      <div><strong style="color:#fff;">Lean Stand Workstation</strong><br>Open design for home building</div>
+      <div>Contact: <a href="mailto:you@example.com">you@example.com</a></div>
+    </div>
+    <small>Free to use and modify for personal use. Images are AI-generated concept illustrations, not photos of a real build. All dimensions are in millimetres.</small>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var SCAD_PATH = "scad/LeanStandWorkStation.scad";            // file next to index.html
+  var VIEWER    = "https://ochafik.com/openscad2/?embed=1#src="; // embedded 3D viewer
+
+  var frame = document.getElementById("viewer");
+  var msg   = document.getElementById("viewer-msg");
+
+  function fail(text) {
+    msg.classList.remove("hidden");
+    msg.innerHTML = text;
+  }
+
+  // Opened by double-click (file://): the browser blocks reading the .scad file.
+  if (location.protocol === "file:") {
+    fail("The 3D model cannot load when this page is opened by double-clicking the file.<br>" +
+         "Run <code>py -m http.server 8000</code> in this folder and open <code>http://localhost:8000</code>, " +
+         "or view the page on the website.");
+    return;
+  }
+
+  fetch(SCAD_PATH)
+    .then(function (r) {
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      return r.text();
+    })
+    .then(function (code) {
+      // Make sure the dimension lines are drawn in the web viewer
+      code = code.replace(/annotations_preview_only\s*=\s*true\s*;/, "annotations_preview_only = false;");
+      frame.src = VIEWER + encodeURIComponent(code);
+      frame.addEventListener("load", function () { msg.classList.add("hidden"); });
+    })
+    .catch(function () {
+      fail("Could not load the 3D model file (<code>" + SCAD_PATH + "</code>). " +
+           "Check that the <code>scad</code> folder is next to <code>index.html</code>, and that the name matches exactly.");
+    });
+})();
+</script>
+
+</body>
+</html>
