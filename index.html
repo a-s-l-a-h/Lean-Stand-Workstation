@@ -45,8 +45,25 @@
     content: ""; position: absolute; left: 12px; top: 5px; width: 4px; height: 18px;
     background: #fff; border-radius: 2px; transform: rotate(-15deg);
   }
+  nav { display: flex; align-items: center; }
   nav a { margin-left: 1.4rem; font-size: 0.93rem; color: var(--muted); text-decoration: none; }
   nav a:hover { color: var(--accent); }
+  nav a.gh {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.4rem 0.85rem; border: 1px solid var(--line); border-radius: 8px;
+    background: var(--card); color: var(--text); font-weight: 600;
+  }
+  nav a.gh:hover { border-color: var(--accent); color: var(--accent); }
+  nav a.gh svg { width: 16px; height: 16px; fill: currentColor; flex: none; }
+
+  /* hamburger button (only shown on small screens) */
+  .menu-btn {
+    display: none; width: 40px; height: 40px; margin-left: 0.6rem;
+    border: 1px solid var(--line); border-radius: 8px; background: var(--card);
+    cursor: pointer; padding: 0; align-items: center; justify-content: center; flex-direction: column; gap: 4px;
+  }
+  .menu-btn span { display: block; width: 18px; height: 2px; background: var(--text); border-radius: 2px; }
+  .nav-right { display: flex; align-items: center; }
 
   /* ---------- hero ---------- */
   .hero { padding: 4.5rem 0 3rem; }
@@ -172,7 +189,15 @@
     .stat:nth-child(2) { border-right: 0; }
     .stat:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
     .viewer-body { height: 500px; }
-    nav a:not(:last-child) { display: none; }
+    .menu-btn { display: inline-flex; }
+    nav#mainnav {
+      display: none; position: absolute; top: 60px; left: 0; right: 0;
+      flex-direction: column; align-items: stretch;
+      background: var(--bg); border-bottom: 1px solid var(--line);
+      padding: 0.5rem 1.25rem 1rem;
+    }
+    nav#mainnav.open { display: flex; }
+    nav#mainnav a.sec { margin: 0; padding: 0.75rem 0; border-bottom: 1px solid var(--line); font-size: 1rem; }
     .hero { padding-top: 2.5rem; }
   }
 </style>
@@ -182,13 +207,27 @@
 <header class="top">
   <div class="wrap">
     <a class="brand" href="#top"><span class="logo"></span>Leaning Workstation</a>
-    <nav>
-      <a href="#model">3D model</a>
-      <a href="#how">How it works</a>
-      <a href="#concept">Concept image</a>
-      <a href="#dimensions">Dimensions</a>
-      <a href="#build">Build info</a>
-    </nav>
+
+    <div class="nav-right">
+      <nav id="mainnav">
+        <a class="sec" href="#model">3D model</a>
+        <a class="sec" href="#how">How it works</a>
+        <a class="sec" href="#concept">Concept image</a>
+        <a class="sec" href="#dimensions">Dimensions</a>
+        <a class="sec" href="#build">Build info</a>
+      </nav>
+
+      <a class="gh-link" href="https://github.com/a-s-l-a-h/Leaning-Workstation" target="_blank" rel="noopener" style="margin-left:1.4rem;">
+        <span class="gh-btn" style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.4rem 0.85rem;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--text);font-weight:600;font-size:0.93rem;text-decoration:none;">
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub
+        </span>
+      </a>
+
+      <button class="menu-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mainnav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -400,6 +439,26 @@
     <small>Free to use and modify for personal use. Images are AI-generated concept illustrations, not photos of a real build. All dimensions are in millimetres.</small>
   </div>
 </footer>
+
+<script>
+(function () {
+  // mobile menu toggle
+  var btn = document.getElementById("menuBtn");
+  var nav = document.getElementById("mainnav");
+  if (btn && nav) {
+    btn.addEventListener("click", function () {
+      var open = nav.classList.toggle("open");
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+    nav.addEventListener("click", function (e) {
+      if (e.target.tagName === "A") {
+        nav.classList.remove("open");
+        btn.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
+})();
+</script>
 
 <script>
 (function () {
