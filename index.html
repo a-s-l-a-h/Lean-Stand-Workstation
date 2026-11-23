@@ -175,6 +175,26 @@
   .note { border-left: 4px solid var(--accent); background: var(--card); border-top: 1px solid var(--line); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 1.1rem 1.3rem; border-radius: 0 10px 10px 0; margin-top: 2rem; }
   .note strong { display: block; margin-bottom: 0.2rem; }
 
+  /* ---------- top notice banner ---------- */
+  .notice {
+    background: #fff4d6; border-bottom: 1px solid #ecd48a; color: #4a3b0a;
+    font-size: 0.93rem; padding: 0.7rem 0;
+  }
+  .notice .wrap { display: flex; gap: 0.8rem; align-items: flex-start; }
+  .notice .tag {
+    flex: none; background: #7a5a00; color: #fff; font-weight: 700; font-size: 0.75rem;
+    letter-spacing: 0.06em; text-transform: uppercase; padding: 0.2rem 0.55rem; border-radius: 5px; margin-top: 0.1rem;
+  }
+  .notice a { color: #4a3b0a; font-weight: 600; }
+
+  /* ---------- before-you-build checklist ---------- */
+  .checklist { margin-top: 2rem; background: #fff4d6; border: 1px solid #ecd48a; border-radius: 12px; padding: 1.5rem; }
+  .checklist h3 { margin: 0 0 0.3rem; font-size: 1.2rem; color: #4a3b0a; }
+  .checklist > p { color: #5c4a10; font-size: 0.96rem; }
+  .checklist ul { margin: 0.8rem 0 0; padding: 0; list-style: none; }
+  .checklist li { position: relative; padding: 0.5rem 0 0.5rem 1.8rem; border-top: 1px solid #ecd48a; font-size: 0.95rem; color: #3b3008; }
+  .checklist li::before { content: "☐"; position: absolute; left: 0; top: 0.4rem; font-size: 1.1rem; color: #7a5a00; }
+
   /* ---------- footer ---------- */
   footer { margin-top: 5rem; background: var(--dark); color: #c9d2ce; padding: 2.5rem 0; font-size: 0.92rem; }
   footer a { color: #fff; }
@@ -233,11 +253,23 @@
 
 <main id="top">
 
+  <!-- NOT BUILT NOTICE -->
+  <div class="notice">
+    <div class="wrap">
+      <span class="tag">Not built yet</span>
+      <span>
+        This is a <strong>design idea only</strong>. No real unit has been built, tested or certified.
+        All pictures are <strong>AI-generated</strong>, not photos of a real build, and the 3D model is the only design reference.
+        Please read the <a href="#before-build">checklist before building</a>.
+      </span>
+    </div>
+  </div>
+
   <!-- HERO -->
   <div class="wrap hero">
     <div class="hero-grid">
       <div>
-        <span class="eyebrow">Open DIY design</span>
+        <span class="eyebrow">Open DIY design · Not built yet</span>
         <h1>Work standing up, while leaning back.</h1>
         <p class="lead">
           Leaning Workstation is a lean chair for laptop work: a tilted backrest, a pelvic roller,
@@ -376,6 +408,27 @@
   <!-- BUILD INFO -->
   <section id="build">
     <div class="wrap">
+
+      <div class="checklist" id="before-build" style="margin-top:0; margin-bottom:2.5rem;">
+        <h3>Before you build: please check</h3>
+        <p>
+          This design has <strong>not been built in the real world</strong>. It is a hobby design that has not been load-tested or certified.
+          You lean your whole body weight on it, so go through this list first.
+        </p>
+        <ul>
+          <li><strong>Check the dimensions</strong> in the 3D model and the tables against each other before you cut anything. Counts and sizes are approximate.</li>
+          <li><strong>Adjust the heights to your body</strong> (pelvic roller, armrests, tray). The values are a starting point for an average adult.</li>
+          <li><strong>Confirm the materials and tube sizes</strong> are right for your weight. Nothing here has been calculated or tested by an engineer.</li>
+          <li><strong>Get the tools you need:</strong> drill, metal saw, files, and good quality M8 bolts, nuts and washers.</li>
+          <li><strong>Check every joint</strong> and tighten all bolts before each use.</li>
+          <li><strong>Add a pin through the tube</strong> at each set height. The height clamps rely on friction only.</li>
+          <li><strong>Test it slowly:</strong> first with a low lean and your feet on the floor, with someone nearby, before you rely on it.</li>
+          <li><strong>Ask a qualified person</strong> (welder, engineer or experienced builder) to review it if you are unsure about anything.</li>
+          <li><strong>Remember the images are AI-generated.</strong> Small details in them may differ from the design.</li>
+        </ul>
+        <p style="margin:1rem 0 0;"><strong>Build and use it at your own risk.</strong></p>
+      </div>
+
       <div class="kicker">Build info</div>
       <h2>Materials</h2>
       <p class="intro">The model is designed in mild steel square tube. Sizes are in mm.</p>
@@ -419,13 +472,7 @@
       </div>
       <p style="margin-top:1rem;color:var(--muted);">Counts are approximate and taken from the model. Check them against the 3D view before you cut anything. An aluminum build with the same layout is possible, but it is not modelled here.</p>
 
-      <div class="note">
-        <strong>Please read before building</strong>
-        This is a hobby design. It has not been load-tested or certified, and no real unit has been built yet.
-        You lean your whole body weight on it, so use good bolts, check every joint, and test it with a low lean and
-        your feet on the floor before you rely on it. The height clamps rely on friction, so check them often, and
-        consider adding a pin through the tube at each set height. Build and use it at your own risk.
-      </div>
+
     </div>
   </section>
 
