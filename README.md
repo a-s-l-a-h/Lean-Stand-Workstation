@@ -135,7 +135,7 @@ The images in this project are **AI-generated concept illustrations** of the ide
 
 Ideas, fixes and improvements are welcome. Open an issue or a pull request on GitHub: <https://github.com/a-s-l-a-h/Leaning-Workstation>
 
-Useful contributions: photos and notes from a real build, load-testing results, an aluminum version, and adjustments for different body heights.
+Useful contributions: photos and notes from a real build, load-testing results, and adjustments for different body heights , New Features , And Upgrading features . 
 
 ---
 
